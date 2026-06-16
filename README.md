@@ -1,9 +1,9 @@
-# 🚀 Job Portal - Complete Setup Guide
-# (Beginner Friendly - Step by Step)
+# Job Portal - Complete Setup Guide
+# Steps
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 job-portal/
@@ -28,7 +28,7 @@ job-portal/
 
 ---
 
-## ✅ STEP 1: Install Required Software
+##  STEP 1: Install Required Software
 
 ### 1.1 Install Node.js
 - Go to: https://nodejs.org
@@ -47,7 +47,7 @@ job-portal/
 
 ---
 
-## ✅ STEP 2: Setup Backend
+##  STEP 2: Setup Backend
 
 Open **Terminal / Command Prompt** in the `job-portal/backend` folder:
 
@@ -64,8 +64,8 @@ npm run dev
 
 You should see:
 ```
-🚀 Server running on port 5000
-✅ MongoDB Connected
+Server running on port 5000
+MongoDB Connected
 ```
 
 ### Edit .env file (important!)
@@ -75,8 +75,7 @@ JWT_SECRET=make_this_a_long_random_string_123456
 ```
 
 ---
-
-## ✅ STEP 3: Setup Frontend
+##  STEP 3: Setup Frontend
 
 Open a **NEW** Terminal window in `job-portal/frontend`:
 
@@ -95,7 +94,7 @@ Browser will open: http://localhost:3000
 
 ---
 
-## ✅ STEP 4: Use the App
+## STEP 4: Use the App
 
 1. Open http://localhost:3000
 2. Click **Sign Up** → Create a Job Seeker account
@@ -105,7 +104,7 @@ Browser will open: http://localhost:3000
 
 ---
 
-## 🌐 API Endpoints Reference
+##  API Endpoints Reference
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -125,7 +124,7 @@ Browser will open: http://localhost:3000
 
 ---
 
-## ❌ Common Errors & Fixes
+##  Common Errors & Fixes
 
 **"npm not found"**
 → Node.js install பண்ணல → nodejs.org போய் install பண்ணு
@@ -144,7 +143,7 @@ Browser will open: http://localhost:3000
 
 ---
 
-## 🔥 Tech Stack
+##  Tech Stack
 
 - **Frontend**: React 18, Redux Toolkit, React Router, Bootstrap 5, Axios
 - **Backend**: Node.js, Express.js, MongoDB, Mongoose, JWT, Multer
@@ -153,7 +152,7 @@ Browser will open: http://localhost:3000
 
 ---
 
-## 📞 Support
+##  Support
 Problems? Check the error message carefully. Most issues are:
 1. MongoDB not running
 2. npm install not done
