@@ -5,7 +5,8 @@ const API = '/api/auth';
 
 export const register = createAsyncThunk('auth/register', async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post(`${API}/register`, data);
+    const API_URL = 'https://job-portal-website-p5s9.onrender.com';   
+    const res = await axios.post(`${API_URL}/register`, data);
     localStorage.setItem('token', res.data.token);
     return res.data;
   } catch (err) {
