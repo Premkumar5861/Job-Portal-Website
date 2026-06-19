@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API = '/api/auth';
+const API_URL = 'https://job-portal-website-p5s9.onrender.com';
 
 export const register = createAsyncThunk('auth/register', async (data, { rejectWithValue }) => {
   try {
-    const API_URL = 'https://job-portal-website-p5s9.onrender.com';   
-    const res = await axios.post(`${API_URL}/register`, data);
+    const res = await axios.post(`${API_URL}/api/auth/register`, data);
     localStorage.setItem('token', res.data.token);
     return res.data;
   } catch (err) {
@@ -16,7 +15,7 @@ export const register = createAsyncThunk('auth/register', async (data, { rejectW
 
 export const login = createAsyncThunk('auth/login', async (data, { rejectWithValue }) => {
   try {
-    const res = await axios.post(`${API}/login`, data);
+    const res = await axios.post(`${API_URL}/api/auth/login`, data);
     localStorage.setItem('token', res.data.token);
     return res.data;
   } catch (err) {
@@ -28,7 +27,9 @@ export const loadUser = createAsyncThunk('auth/loadUser', async (_, { rejectWith
   try {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token');
-    const res = await axios.get(`${API}/me`, { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axios.get(`${API_URL}/api/auth/me`, { 
+      headers: { Authorization: `Bearer ${token}` } 
+    });
     return res.data;
   } catch (err) {
     return rejectWithValue('Not authenticated');
@@ -38,7 +39,9 @@ export const loadUser = createAsyncThunk('auth/loadUser', async (_, { rejectWith
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (data, { rejectWithValue }) => {
   try {
     const token = localStorage.getItem('token');
-    const res = await axios.put(`${API}/profile`, data, { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axios.put(`${API_URL}/api/auth/profile`, data, { 
+      headers: { Authorization: `Bearer ${token}` } 
+    });
     return res.data;
   } catch (err) {
     return rejectWithValue(err.response?.data?.message || 'Update failed');
