@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API = '/api/applications';
+const API = 'https://job-portal-website-p5s9.onrender.com/api/applications';
 const getHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem('token')}` });
 
 export const applyForJob = createAsyncThunk('applications/apply', async (data, { rejectWithValue }) => {
@@ -53,11 +53,15 @@ const applicationSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(fetchMyApplications.fulfilled, (state, action) => {
-        state.myApplications = action.payload;
-      })
+  state.myApplications = Array.isArray(action.payload) 
+    ? action.payload 
+    : action.payload.applications || action.payload.data || [];
+})
       .addCase(fetchJobApplications.fulfilled, (state, action) => {
-        state.jobApplications = action.payload;
-      })
+  state.jobApplications = Array.isArray(action.payload)
+    ? action.payload
+    : action.payload.applications || action.payload.data || [];
+})
       .addCase(updateApplicationStatus.fulfilled, (state, action) => {
         const idx = state.jobApplications.findIndex(a => a._id === action.payload._id);
         if (idx !== -1) state.jobApplications[idx] = action.payload;

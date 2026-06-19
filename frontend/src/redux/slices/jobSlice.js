@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API = '/api/jobs';
+// ✅ FIX 1: Full backend URL
+const API = 'https://job-portal-website-p5s9.onrender.com/api/jobs';
 const getHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem('token')}` });
 
 export const fetchJobs = createAsyncThunk('jobs/fetchAll', async (params = {}) => {
@@ -53,16 +54,26 @@ const jobSlice = createSlice({
       .addCase(fetchJobs.pending, (state) => { state.loading = true; })
       .addCase(fetchJobs.fulfilled, (state, action) => {
         state.loading = false;
-        state.jobs = action.payload.jobs;
-        state.total = action.payload.total;
-        state.pages = action.payload.pages;
+        // ✅ FIX 2: Safe array check
+        state.jobs = Array.isArray(action.payload) ? action.payload : action.payload.jobs || [];
+        state.total = action.payload.total || 0;
+        state.pages = action.payload.pages || 1;
       })
       .addCase(fetchJobs.rejected, (state) => { state.loading = false; })
-      .addCase(fetchJobById.fulfilled, (state, action) => { state.currentJob = action.payload; })
-      .addCase(createJob.fulfilled, (state, action) => {
-        state.myJobs.unshift(action.payload);
+      .addCase(fetchJobById.fulfilled, (state, action) => {
+        // ✅ FIX 3: job object safe access
+        state.currentJob = action.payload.job || action.payload;
       })
-      .addCase(fetchMyJobs.fulfilled, (state, action) => { state.myJobs = action.payload; })
+      .addCase(createJob.fulfilled, (state, action) => {
+        const job = action.payload.job || action.payload;
+        state.myJobs.unshift(job);
+      })
+      .addCase(fetchMyJobs.fulfilled, (state, action) => {
+        // ✅ FIX 4: Safe array check for myJobs
+        state.myJobs = Array.isArray(action.payload)
+          ? action.payload
+          : action.payload.jobs || action.payload.data || [];
+      })
       .addCase(deleteJob.fulfilled, (state, action) => {
         state.myJobs = state.myJobs.filter(j => j._id !== action.payload);
       });
