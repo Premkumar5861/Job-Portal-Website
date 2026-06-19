@@ -96,40 +96,37 @@ const Home = () => {
       </section>
 
       {/* Recent Jobs */}
-      <section className="py-5 bg-light">
-        <div className="container">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h3 className="fw-bold mb-0">Recent Jobs</h3>
-            <button className="btn btn-outline-primary btn-sm" onClick={() => navigate('/jobs')}>
-              View All <i className="bi bi-arrow-right ms-1"></i>
-            </button>
-          </div>
-          {loading ? (
-            <div className="loading-overlay"><div className="spinner-border text-primary"></div></div>
-          ) : (
-            <div className="row">
-              {jobs && jobs.length > 0 ? (
-  jobs.map(job => (
-    <div key={job._id} className="col-12 col-md-6">
-      <JobCard job={job} />
+<section className="py-5 bg-light">
+  <div className="container">
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h3 className="fw-bold mb-0">Recent Jobs</h3>
+      <button className="btn btn-outline-primary btn-sm" onClick={() => navigate('/jobs')}>
+        View All <i className="bi bi-arrow-right ms-1"></i>
+      </button>
     </div>
-  ))
-) : (
-  <div className="text-center text-muted py-5">
-    <i className="bi bi-inbox fs-1 d-block mb-2"></i>
-    No jobs available at the moment.
-  </div>
-)}
-              {jobs.length === 0 && (
-                <div className="text-center text-muted py-5">
-                  <i className="bi bi-inbox fs-1 d-block mb-2"></i>
-                  No jobs posted yet. Be the first recruiter!
-                </div>
-              )}
+
+    {loading ? (
+      <div className="loading-overlay">
+        <div className="spinner-border text-primary"></div>
+      </div>
+    ) : (
+      <div className="row">
+        {jobs && jobs.length > 0 ? (
+          jobs.map(job => (
+            <div key={job._id} className="col-12 col-md-6">
+              <JobCard job={job} />
             </div>
-          )}
-        </div>
-      </section>
+          ))
+        ) : (
+          <div className="text-center text-muted py-5">
+            <i className="bi bi-inbox fs-1 d-block mb-2"></i>
+            No jobs available at the moment.
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</section>
 
       {/* CTA */}
       <section className="py-5 bg-primary text-white text-center">
