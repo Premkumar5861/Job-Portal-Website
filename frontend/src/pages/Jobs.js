@@ -85,7 +85,7 @@ const Jobs = () => {
             </div>
           ) : (
             <>
-              {jobs.map(job => <JobCard key={job._id} job={job} />)}
+              {jobs.map(job => <JobCard key={job._id} job={job} />) || []}
               {/* Pagination */}
               {pages > 1 && (
                 <div className="d-flex justify-content-center mt-4">

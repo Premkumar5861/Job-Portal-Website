@@ -112,7 +112,7 @@ const Home = () => {
                 <div key={job._id} className="col-12 col-md-6">
                   <JobCard job={job} />
                 </div>
-              ))}
+              )) || []}
               {jobs.length === 0 && (
                 <div className="text-center text-muted py-5">
                   <i className="bi bi-inbox fs-1 d-block mb-2"></i>
