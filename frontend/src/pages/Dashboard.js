@@ -7,7 +7,7 @@ import {
   fetchJobApplications,
 } from "../redux/slices/applicationSlice";
 import { fetchMyJobs, createJob, deleteJob } from "../redux/slices/jobSlice";
-import { updateProfile } from "../redux/slices/authSlice";
+import { updateProfile, loadUser } from "../redux/slices/authSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -40,21 +40,17 @@ const myJobs = useSelector((state) => state.jobs?.myJobs || []);
   const { jobApplications } = useSelector((state) => state.applications);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
-    }
-    if (user?.role === "jobseeker") dispatch(fetchMyApplications());
-    if (user?.role === "recruiter") dispatch(fetchMyJobs());
-    setProfileForm({
-      name: user?.name || "",
-      phone: user?.phone || "",
-      location: user?.location || "",
-      skills: user?.skills?.join(", ") || "",
-      company: user?.company || "",
-    });
-  }, [isAuthenticated, user, dispatch, navigate]);
-
+  if (!isAuthenticated) return; // navigate 
+  if (user?.role === 'jobseeker') dispatch(fetchMyApplications());
+  if (user?.role === 'recruiter') dispatch(fetchMyJobs());
+  setProfileForm({
+    name: user?.name || '',
+    phone: user?.phone || '',
+    location: user?.location || '',
+    skills: user?.skills?.join(', ') || '',
+    company: user?.company || '',
+  });
+}, [isAuthenticated, user, dispatch]);
   const handlePostJob = async (e) => {
     e.preventDefault();
     const data = {
@@ -90,22 +86,28 @@ const myJobs = useSelector((state) => state.jobs?.myJobs || []);
   };
 
   const handleResumeUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("resume", file);
-    try {
-      await axios.post("/api/resume/upload", formData, {
+  const file = e.target.files[0];
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('resume', file);
+  try {
+    const res = await axios.post(
+      'https://job-portal-website-p5s9.onrender.com/api/resume/upload', // ✅ Full URL
+      formData,
+      {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
         },
-      });
-      toast.success("Resume uploaded!");
-    } catch {
-      toast.error("Upload failed");
-    }
-  };
+      }
+    );
+    toast.success('Resume uploaded!');
+    
+    dispatch(loadUser());
+  } catch {
+    toast.error('Upload failed');
+  }
+};
 
   const handleViewApplicants = (jobId) => {
     setSelectedJobId(jobId);

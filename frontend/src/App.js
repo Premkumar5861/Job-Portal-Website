@@ -15,7 +15,18 @@ import Dashboard from './pages/Dashboard';
 import './styles/App.css';
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated } = useSelector(state => state.auth);
+  const { isAuthenticated, initialized } = useSelector(state => state.auth);
+  
+  if (!initialized) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+  
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
@@ -25,6 +36,8 @@ const AppContent = () => {
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
+
+
 
   return (
     <Router>

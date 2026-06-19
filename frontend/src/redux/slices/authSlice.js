@@ -56,6 +56,7 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     isAuthenticated: false,
+    initialized: false,
   },
   reducers: {
     logout: (state) => {
@@ -90,14 +91,22 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(loadUser.pending, (state) => {
+  state.loading = true;         
+})
       .addCase(loadUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isAuthenticated = true;
+  state.user = action.payload;
+  state.isAuthenticated = true;
+  state.loading = false;       
+  state.initialized = true
+
       })
       .addCase(loadUser.rejected, (state) => {
-        state.isAuthenticated = false;
-        state.user = null;
-      })
+  state.isAuthenticated = false;
+  state.user = null;
+  state.loading = false;       
+  state.initialized = true;    
+})
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.user = action.payload;
       });
