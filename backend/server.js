@@ -8,25 +8,33 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Strong CORS Fix (Vercel → Render)
-app.use(cors({
-  origin: [
-    'https://job-portal-frontend-git-main-premkumar5861s-projects.vercel.app',
-    'https://job-portal-frontend-*.vercel.app',
-    'http://localhost:3000'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+// ✅ Dynamic & Flexible CORS for Vercel Previews
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://job-portal-frontend-git-main-premkumar5861s-projects.vercel.app',
+      'https://job-portal-frontend-sooty-kappa.vercel.app',   // ← இப்போ உன் current preview
+      'http://localhost:3000'
+    ];
 
-// Preflight requests க்கு
-app.options('*', cors());
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));   // Preflight fix
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
@@ -36,10 +44,8 @@ app.use('/api/applications', require('./routes/applications'));
 app.use('/api/resume', require('./routes/resume'));
 app.use('/api/admin', require('./routes/admin'));
 
-// Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
 
-// MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Error:', err));
