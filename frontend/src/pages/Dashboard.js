@@ -297,7 +297,7 @@ const Dashboard = () => {
                     <i className="bi bi-file-earmark-check me-2"></i>
                     Resume uploaded!
                     <a
-                      href={`http://localhost:5000${user.resume}`}
+                      href={`https://job-portal-website-p5s9.onrender.com${user.resume}`}
                       target="_blank"
                       rel="noreferrer"
                       className="ms-2"
