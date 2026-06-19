@@ -13,8 +13,8 @@ import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
-  const { myApplications } = useSelector((state) => state.applications);
-  const { myJobs } = useSelector((state) => state.jobs);
+const myApplications = useSelector((state) => state.applications?.myApplications || []); 
+const myJobs = useSelector((state) => state.jobs?.myJobs || []);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tab, setTab] = useState("overview");
@@ -191,7 +191,7 @@ const Dashboard = () => {
                         <h3 className="text-success fw-bold">
                           {
                             myApplications.filter(
-                              (a) => a.status === "Shortlisted",
+                              (a) => a?.status === "Shortlisted"
                             ).length
                           }
                         </h3>
@@ -202,7 +202,7 @@ const Dashboard = () => {
                       <div className="card border-0 shadow-sm p-3 text-center">
                         <h3 className="text-warning fw-bold">
                           {
-                            myApplications.filter((a) => a.status === "Hired")
+                            myApplications.filter((a) => a?.status === "Hired")
                               .length
                           }
                         </h3>
@@ -223,7 +223,7 @@ const Dashboard = () => {
                     <div className="col-6 col-md-4">
                       <div className="card border-0 shadow-sm p-3 text-center">
                         <h3 className="text-success fw-bold">
-                          {myJobs.filter((j) => j.isActive).length}
+                          {myJobs.filter((j) => j?.isActive).length}
                         </h3>
                         <small>Active Jobs</small>
                       </div>
@@ -232,7 +232,7 @@ const Dashboard = () => {
                       <div className="card border-0 shadow-sm p-3 text-center">
                         <h3 className="text-warning fw-bold">
                           {myJobs.reduce(
-                            (s, j) => s + (j.applicants?.length || 0),
+                            (s, j) => s + (j?.applicants?.length || 0),
                             0,
                           )}
                         </h3>
