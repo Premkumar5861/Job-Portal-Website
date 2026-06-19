@@ -8,19 +8,19 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Strong CORS Configuration
+// ✅ Strong CORS for Vercel + Render
 app.use(cors({
   origin: [
     'https://job-portal-frontend-git-main-premkumar5861s-projects.vercel.app',
-    'http://localhost:3000',
-    'https://job-portal-frontend-*.vercel.app'
+    'https://job-portal-frontend-*.vercel.app',   // preview branches
+    'http://localhost:3000'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// Preflight handling
+// Handle preflight OPTIONS requests
 app.options('*', cors());
 
 app.use(express.json());
