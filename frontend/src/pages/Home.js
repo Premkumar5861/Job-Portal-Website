@@ -108,11 +108,18 @@ const Home = () => {
             <div className="loading-overlay"><div className="spinner-border text-primary"></div></div>
           ) : (
             <div className="row">
-              {jobs.map(job => (
-                <div key={job._id} className="col-12 col-md-6">
-                  <JobCard job={job} />
-                </div>
-              )) || []}
+              {jobs && jobs.length > 0 ? (
+  jobs.map(job => (
+    <div key={job._id} className="col-12 col-md-6">
+      <JobCard job={job} />
+    </div>
+  ))
+) : (
+  <div className="text-center text-muted py-5">
+    <i className="bi bi-inbox fs-1 d-block mb-2"></i>
+    No jobs available at the moment.
+  </div>
+)}
               {jobs.length === 0 && (
                 <div className="text-center text-muted py-5">
                   <i className="bi bi-inbox fs-1 d-block mb-2"></i>
