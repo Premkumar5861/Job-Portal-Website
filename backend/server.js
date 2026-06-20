@@ -13,7 +13,8 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'https://job-portal-frontend-git-main-premkumar5861s-projects.vercel.app',
-      'https://job-portal-frontend-sooty-kappa.vercel.app',   // ← இப்போ உன் current preview
+      'https://job-portal-frontend-sooty-kappa.vercel.app',
+      "https://jobportal-pkmr.vercel.app",
       'http://localhost:3000'
     ];
 
