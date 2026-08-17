@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Dynamic & Flexible CORS for Vercel Previews
+//  Dynamic & Flexible CORS for Vercel Previews
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
